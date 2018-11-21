@@ -14,8 +14,15 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() override;
 private slots:
-    // void about();
-    void quit();
+    void load();
+    void save();
+    void resize();
+    void crop();
+    void transparency();
+    void resize_apply();
+    void crop_apply();
+    void transparency_apply();
+    void help();
 private:
 	Ui::MainWindow *ui;
     void createActions();
