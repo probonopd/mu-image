@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="resources">
+    <file>zoom-in.png</file>
+    <file>zoom-out.png</file>
+    <file>save.png</file>
+    <file>quit.png</file>
+    <file>help.png</file>
+    <file>resize.png</file>
+    <file>transparency.png</file>
+    <file>crop.png</file>
+    <file>load.png</file>
+  </qresource>
+</RCC>
