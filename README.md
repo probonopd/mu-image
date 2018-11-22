@@ -50,15 +50,24 @@ Possible features:
 - [x] add a toolbar:
   - http://doc.qt.io/qt-5/designer-creating-mainwindows.html#toolbars
   - load, save, resize, crop, transparency, help, quit (zoom in and out?)
-  - make the toolbar wider? and get it to stick on the top.
-  - Set "movable" to false in designer.
+- [x] make the toolbar wider / the icons bigger
+- [x] Make the toolbar and side panels not movable
 - [x] read the main window from a `.ui` file
   - old qt manual: <https://wiki.qt.io/Using_CMake_build_system>
   - new cmake manual: <https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#manual:cmake-qt(7)>
   - a sample qt app with ui files: <https://doc-snapshots.qt.io/qt5-5.9/gettingstartedqt.html>
   - use the images icon from ui-editor as the icon for the application? (with a red border...)
-- [ ] load an image into the central widget.
+- [x] load an image into the central widget.
+- [x] find the right policy for the initial image size on screen.
+- [ ] zoom in and out.
 - [x] standard actions in the menus / toolbar
+- [ ] implement crop
+  - [ ] selection
+    - [ ] refactor the selection in its own class
+    - [ ] move the selection
+    - [ ] connect the selection with the crop panel
+    - [ ] make the selection work upwards
+    - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
 - [ ] high resolution?
   - http://doc.qt.io/qt-5.6/highdpi.html#high-dpi-support-in-qt
   - https://doc.qt.io/qt-5.6/qtlabscontrols-highdpi.html

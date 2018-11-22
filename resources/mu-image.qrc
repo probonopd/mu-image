@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="resources">
+    <file>zoom-1.png</file>
     <file>zoom-in.png</file>
     <file>zoom-out.png</file>
     <file>save.png</file>

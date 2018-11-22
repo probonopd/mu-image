@@ -58,6 +58,9 @@
    <addaction name="actionResize"/>
    <addaction name="actionCrop"/>
    <addaction name="actionTransparency"/>
+   <addaction name="actionZoomIn"/>
+   <addaction name="actionZoomDefault"/>
+   <addaction name="actionZoomOut"/>
    <addaction name="actionHelp"/>
    <addaction name="actionQuit"/>
   </widget>
@@ -377,6 +380,42 @@
     <string>Help</string>
    </property>
   </action>
+  <action name="actionZoomIn">
+   <property name="icon">
+    <iconset resource="../resources/mu-image.qrc">
+     <normaloff>:/resources/zoom-in.png</normaloff>:/resources/zoom-in.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom in</string>
+   </property>
+  </action>
+  <action name="actionZoomDefault">
+   <property name="icon">
+    <iconset resource="../resources/mu-image.qrc">
+     <normaloff>:/resources/zoom-1.png</normaloff>:/resources/zoom-1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+   <property name="toolTip">
+    <string>Default Zoom Leve</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="icon">
+    <iconset resource="../resources/mu-image.qrc">
+     <normaloff>:/resources/zoom-out.png</normaloff>:/resources/zoom-out.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom Out</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../resources/mu-image.qrc"/>
@@ -494,6 +533,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionZoomIn</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>do_zoom_in()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>262</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionZoomDefault</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>do_zoom_default()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>262</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionZoomOut</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>do_zoom_out()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>262</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_load()</slot>
@@ -505,5 +592,8 @@
   <slot>apply_resize()</slot>
   <slot>apply_crop()</slot>
   <slot>apply_transparency()</slot>
+  <slot>do_zoom_in()</slot>
+  <slot>do_zoom_default()</slot>
+  <slot>do_zoom_out()</slot>
  </slots>
 </ui>

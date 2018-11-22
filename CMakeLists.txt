@@ -18,6 +18,7 @@ ADD_EXECUTABLE(mu-image
     src/muimage.cpp
     src/mainwindow.cpp
     src/image.cpp
+    src/selection.cpp
     resources/mu-image.qrc
 )
 
