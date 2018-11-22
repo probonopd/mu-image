@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 
+#include "image.h"
+
+class QLabel;
+class QScrollArea;
+
 namespace Ui {
 	class MainWindow;
 }
@@ -24,7 +29,14 @@ private slots:
     void transparency_apply();
     void help();
 private:
-	Ui::MainWindow *ui;
     void createActions();
+
+    void close();
+    void show_error_message(QString message);
+    void enable_action_buttons();
+    void disable_action_buttons();
+
+	Ui::MainWindow *ui;
+    Image image;
 };
 #endif

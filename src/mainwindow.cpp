@@ -1,18 +1,29 @@
 #include "mainwindow.h"
+#include "image.h"
 #include "../ui/ui_mainwindow.h"
 
 #include <QtWidgets>
 #include <QFileDialog>
 #include <QDebug>
+#include <QSize>
+
+#include <QMessageBox>
+#include <QGuiApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    image{}
 {
 	ui->setupUi(this);
     createActions();
 
     ui->stackedPanels->setCurrentIndex(0);
+
+    setCentralWidget(&image);
+    const auto size{QGuiApplication::primaryScreen()->availableSize() * 3 / 5};
+    resize(size);
+    // resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 MainWindow::~MainWindow()
@@ -32,13 +43,6 @@ void MainWindow::createActions()
 
 void MainWindow::load()
 {
-
-    // getting the latest path from the settings:
-    // https://stackoverflow.com/questions/3597900/qsettings-file-chooser-should-remember-the-last-directory
-    // https://stackoverflow.com/questions/50347610/qt-file-dialog-doesnt-remember-the-last-directory-after-restarting-project
-
-    // auto fileName = QFileDialog::getOpenFileName(this,
-        // tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg)"));
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
 	QStringList mimeTypeFilters;
@@ -48,12 +52,21 @@ void MainWindow::load()
 	dialog.setMimeTypeFilters(mimeTypeFilters);
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.exec();
+
     auto filenames = dialog.selectedFiles();
     QString filename{};
-    if (filenames.size() == 1) {
-        filename = filenames.at(0);
+    if (filenames.size() != 1) {
+        return;
     }
-    qDebug() << filename;
+
+    filename = filenames.at(0);
+
+    if (image.open(filename)) {
+        statusBar()->showMessage(image.get_status_message());
+        enable_action_buttons();
+    } else {
+        show_error_message(image.get_error_message());
+    }
 }
 
 void MainWindow::save()
@@ -97,6 +110,25 @@ void MainWindow::transparency_apply()
 }
 
 void MainWindow::help()
+{
+    // probably, put the help in the side pane
+}
+
+void MainWindow::close()
+{
+    disable_action_buttons();
+}
+
+void MainWindow::show_error_message(QString message)
+{
+    QMessageBox::information(this, QGuiApplication::applicationDisplayName(), message);
+}
+
+void MainWindow::enable_action_buttons()
+{
+}
+
+void MainWindow::disable_action_buttons()
 {
 }
 /*

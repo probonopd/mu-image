@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>mu-image</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -38,6 +38,15 @@
    <property name="movable">
     <bool>false</bool>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -53,6 +62,9 @@
    <addaction name="actionQuit"/>
   </widget>
   <widget class="QDockWidget" name="dockPanels">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
@@ -61,7 +73,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedPanels">
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="emptyPanel"/>
        <widget class="QWidget" name="scalePanel">
@@ -161,6 +173,13 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Scale</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="cropPanel">
@@ -199,7 +218,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_17">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Crop</string>
            </property>
           </widget>
          </item>
