@@ -19,19 +19,19 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() override;
 private slots:
-    void load();
-    void save();
-    void resize();
-    void crop();
-    void transparency();
-    void resize_apply();
-    void crop_apply();
-    void transparency_apply();
-    void help();
+    void do_load();
+    void do_save();
+    void do_resize();
+    void do_crop();
+    void do_transparency();
+    void apply_resize();
+    void apply_crop();
+    void apply_transparency();
+    void do_help();
 private:
     void createActions();
 
-    void close();
+    void do_close();
     void show_error_message(QString message);
     void enable_action_buttons();
     void disable_action_buttons();

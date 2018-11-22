@@ -402,7 +402,7 @@
    <sender>actionLoad</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>load()</slot>
+   <slot>do_load()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -418,7 +418,7 @@
    <sender>actionResize</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>resize()</slot>
+   <slot>do_resize()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -434,7 +434,7 @@
    <sender>actionCrop</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop()</slot>
+   <slot>do_crop()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -450,7 +450,7 @@
    <sender>actionTransparency</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>transparency()</slot>
+   <slot>do_transparency()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -466,11 +466,11 @@
    <sender>resizeButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>resize_apply()</slot>
+   <slot>apply_resize()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>475</x>
-     <y>184</y>
+     <y>226</y>
     </hint>
     <hint type="destinationlabel">
      <x>268</x>
@@ -482,11 +482,11 @@
    <sender>cropButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop_apply()</slot>
+   <slot>apply_crop()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>487</x>
-     <y>192</y>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>302</x>
@@ -496,14 +496,14 @@
   </connection>
  </connections>
  <slots>
-  <slot>load()</slot>
-  <slot>save()</slot>
-  <slot>help()</slot>
-  <slot>resize()</slot>
-  <slot>crop()</slot>
-  <slot>transparency()</slot>
-  <slot>resize_apply()</slot>
-  <slot>crop_apply()</slot>
-  <slot>transparency_apply()</slot>
+  <slot>do_load()</slot>
+  <slot>do_save()</slot>
+  <slot>do_help()</slot>
+  <slot>do_resize()</slot>
+  <slot>do_crop()</slot>
+  <slot>do_transparency()</slot>
+  <slot>apply_resize()</slot>
+  <slot>apply_crop()</slot>
+  <slot>apply_transparency()</slot>
  </slots>
 </ui>

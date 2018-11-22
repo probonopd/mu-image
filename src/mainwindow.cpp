@@ -21,9 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedPanels->setCurrentIndex(0);
 
     setCentralWidget(&image);
-    const auto size{QGuiApplication::primaryScreen()->availableSize() * 3 / 5};
-    resize(size);
-    // resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
 
 MainWindow::~MainWindow()
@@ -41,7 +39,7 @@ void MainWindow::createActions()
 	ui->actionQuit->setShortcut(QKeySequence::Quit);
 }
 
-void MainWindow::load()
+void MainWindow::do_load()
 {
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
@@ -69,52 +67,52 @@ void MainWindow::load()
     }
 }
 
-void MainWindow::save()
+void MainWindow::do_save()
 {
     // no dialog, just save the file
 }
 
-void MainWindow::resize()
+void MainWindow::do_resize()
 {
     qDebug() << "resize";
     ui->stackedPanels->setCurrentIndex(1);
 }
 
-void MainWindow::crop()
+void MainWindow::do_crop()
 {
     qDebug() << "crop";
     ui->stackedPanels->setCurrentIndex(2);
 }
 
-void MainWindow::transparency()
+void MainWindow::do_transparency()
 {
     qDebug() << "transparency";
 }
 
-void MainWindow::resize_apply()
+void MainWindow::apply_resize()
 {
     qDebug() << "resize apply";
     ui->stackedPanels->setCurrentIndex(0);
 }
 
-void MainWindow::crop_apply()
+void MainWindow::apply_crop()
 {
     qDebug() << "crop apply";
     ui->stackedPanels->setCurrentIndex(0);
 }
 
-void MainWindow::transparency_apply()
+void MainWindow::apply_transparency()
 {
     qDebug() << "transparency apply";
     ui->stackedPanels->setCurrentIndex(0);
 }
 
-void MainWindow::help()
+void MainWindow::do_help()
 {
     // probably, put the help in the side pane
 }
 
-void MainWindow::close()
+void MainWindow::do_close()
 {
     disable_action_buttons();
 }
