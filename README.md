@@ -81,6 +81,7 @@ Possible features:
     - [ ] add grips to the selection?
       - https://gist.github.com/Riateche/6743108
     - [ ] change the selection when zoom
+    - [ ] should we (re-)add the "keep proportions"? probably, not... the target user won't probably understand it.
     - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
 - [ ] avoid extending the widget in QImage and use the image (the issue is, how to put as little as possible in the MainWindow, for setting the centralContainer).
 - [ ] implement resize
