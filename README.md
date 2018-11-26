@@ -75,11 +75,12 @@ Possible features:
     - [x] make the QRubberBand a member of selection (do not extend it)
     - [ ] keep the selection inside of the image borders.
     - [ ] As soon as the zoom is implemented, fix `Image::image_view_width()` to use the current view width.
-    - [ ] set the spinbox based on the image size.
-    - [ ] change the selection when the spinbox changes
+    - [x] set the spinbox based on the image size.
+    - [x] change the selection when the spinbox changes
       - https://wiki.qt.io/New_Signal_Slot_Syntax (see the overloaded signals)
     - [ ] add grips to the selection?
       - https://gist.github.com/Riateche/6743108
+    - [ ] change the selection when zoom
     - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
 - [ ] avoid extending the widget in QImage and use the image (the issue is, how to put as little as possible in the MainWindow, for setting the centralContainer).
 - [ ] implement resize

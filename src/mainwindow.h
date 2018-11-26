@@ -61,9 +61,10 @@ private:
 
 	Ui::MainWindow *ui;
     Image image;
-    Selection selection{this};
+    Selection selection;
     Action active_action{Action::none};
 
-    QMetaObject::Connection crop_connection;
+    QMetaObject::Connection crop_selection_connection;
+    QVector<QMetaObject::Connection> crop_spinbox_connection;
 };
 #endif

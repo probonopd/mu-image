@@ -17,6 +17,7 @@ class Selection : public QObject
 
     public:
         explicit Selection(QMainWindow *parent);
+        explicit Selection(QMainWindow *parent, QPoint origin);
 
         bool is_active() const { return state != State::inactive; }
 
@@ -26,10 +27,14 @@ class Selection : public QObject
         void mouse_released();
         QRect shape() const { return rubberband.geometry(); }
     public slots:
-        void change_selection(QRect geometry);
+        void change_selection_x(int x);
+        void change_selection_y(int y);
+        void change_selection_width(int width);
+        void change_selection_height(int height);
     signals:
         void selection_changed(QRect geometry);
     private:
+        QPoint parent_origin{};
         QRubberBand rubberband;
         State state{State::inactive};
         QPoint origin{};

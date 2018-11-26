@@ -76,7 +76,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedPanels">
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="emptyPanel"/>
        <widget class="QWidget" name="scalePanel">
@@ -417,6 +417,20 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>cropXSpinBox</tabstop>
+  <tabstop>cropYSpinBox</tabstop>
+  <tabstop>cropWidthSpinBox</tabstop>
+  <tabstop>cropHeightSpinBox</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>cropButton</tabstop>
+  <tabstop>scaleWidthPcSpinBox</tabstop>
+  <tabstop>scaleHeightPxSpinBox</tabstop>
+  <tabstop>scaleHeightPcSpinBox</tabstop>
+  <tabstop>resizeButton</tabstop>
+  <tabstop>proportionsCheckBox</tabstop>
+  <tabstop>scaleWidthPxSpinBox</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources/mu-image.qrc"/>
  </resources>

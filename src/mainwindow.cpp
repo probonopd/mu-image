@@ -11,11 +11,13 @@
 #include <QGuiApplication>
 
 #include <QMouseEvent>
+#include <QSpinBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    image{}
+    image{},
+    selection{this, image.geometry().topLeft()}
 {
 	ui->setupUi(this);
 
@@ -95,8 +97,8 @@ void MainWindow::do_save()
 void MainWindow::do_resize()
 {
     qDebug() << "resize";
-    active_action = Action::resize;
     ui->stackedPanels->setCurrentIndex(1);
+    active_action = Action::resize;
 }
 
 void MainWindow::do_crop()
@@ -107,20 +109,37 @@ void MainWindow::do_crop()
     ui->cropYSpinBox->setMaximum(image.image_height());
     ui->cropWidthSpinBox->setMaximum(image.image_width());
     ui->cropHeightSpinBox->setMaximum(image.image_height());
-    crop_connection = connect(
+    crop_selection_connection = connect(
         &selection, &Selection::selection_changed, 
         this, &MainWindow::change_crop_selection
     );
+
+    crop_spinbox_connection.append(connect(
+        ui->cropXSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+        &selection, &Selection::change_selection_x
+    ));
+    crop_spinbox_connection.append(connect(
+        ui->cropYSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+        &selection, &Selection::change_selection_y
+    ));
+    crop_spinbox_connection.append(connect(
+        ui->cropWidthSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+        &selection, &Selection::change_selection_width
+    ));
+    crop_spinbox_connection.append(connect(
+        ui->cropHeightSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
+        &selection, &Selection::change_selection_height
+    ));
 }
 
 void MainWindow::change_crop_selection(QRect geometry)
 {
     if (geometry.x() >= image.geometry().x() && geometry.x() + geometry.width() <= image.geometry().x() + image.image_view_width()) {
-        ui->cropXSpinBox->setValue(geometry.x() - image.geometry().x());
+        ui->cropXSpinBox->setValue(geometry.x());
         ui->cropWidthSpinBox->setValue(geometry.width());
     }
     if (geometry.y() >= image.geometry().y()) {
-        ui->cropYSpinBox->setValue(geometry.y() - image.geometry().y());
+        ui->cropYSpinBox->setValue(geometry.y());
         ui->cropHeightSpinBox->setValue(geometry.height());
     }
 }
@@ -154,7 +173,10 @@ void MainWindow::apply_transparency()
 
 void MainWindow::close_crop()
 {
-    QObject::disconnect(crop_connection);
+    QObject::disconnect(crop_selection_connection);
+    for (auto& connection: crop_spinbox_connection) {
+        QObject::disconnect(connection);
+    }
     ui->stackedPanels->setCurrentIndex(0);
     ui->cropXSpinBox->setValue(0);
     ui->cropYSpinBox->setValue(0);

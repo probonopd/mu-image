@@ -3,7 +3,13 @@
 #include <QDebug>
 
 Selection::Selection(QMainWindow *parent) :
-    rubberband{QRubberBand::Rectangle, parent}
+    Selection(parent, {0, 0})
+{
+}
+
+Selection::Selection(QMainWindow *parent, QPoint origin) :
+    rubberband{QRubberBand::Rectangle, parent},
+    parent_origin{origin}
 {
 }
 
@@ -15,13 +21,13 @@ void Selection::start(QPoint pos)
         rubberband.show();
         rubberband.setGeometry(QRect(pos, pos).normalized());
     } else if (state == State::defined) {
-        // qDebug() << rubberband.geometry().contains(pos);
-        // qDebug() << rubberband.underMouse();
         if (rubberband.geometry().contains(pos)) {
             state = State::moving;
             move_offset = pos - rubberband.pos();
         } else {
-            stop();
+            state = State::creating;
+            origin = pos;
+            rubberband.setGeometry(QRect(pos, pos).normalized());
         }
     }
 }
@@ -40,7 +46,11 @@ void Selection::mouse_moved(QPoint pos)
     } else if (state == State::moving) {
         rubberband.move(pos - move_offset);
     }
-    emit selection_changed(rubberband.geometry());
+    auto image_geometry{rubberband.geometry()};
+    image_geometry.setX(image_geometry.x() - parent_origin.x());
+    image_geometry.setY(image_geometry.y() - parent_origin.y());
+    // image_geometry.moveTopLeft(parent_origin);
+    emit selection_changed(image_geometry);
 }
 
 void Selection::mouse_released()
@@ -52,6 +62,19 @@ void Selection::mouse_released()
     }
 }
 
-void Selection::change_selection(QRect geometry)
+void Selection::change_selection_x(int x)
 {
+    rubberband.move(x, rubberband.y());
+}
+void Selection::change_selection_y(int y)
+{
+    rubberband.move(rubberband.x(), y);
+}
+void Selection::change_selection_width(int width)
+{
+    rubberband.resize(width, rubberband.height());
+}
+void Selection::change_selection_height(int height)
+{
+    rubberband.resize(rubberband.width(), height);
 }
