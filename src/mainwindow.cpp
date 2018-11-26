@@ -5,7 +5,7 @@
 #include <QtWidgets>
 #include <QFileDialog>
 #include <QDebug>
-#include <QSize>
+#include <QRect>
 
 #include <QMessageBox>
 #include <QGuiApplication>
@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     hide_panels();
 
+    connect(ui->stackedPanels, &QStackedWidget::currentChanged, this, &MainWindow::on_panel_focus);
+
     setCentralWidget(&image);
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
 }
@@ -33,11 +35,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_panel_focus(int i)
+{
+    if (active_action == Action::crop) {
+        close_crop();
+    }
+}
+
 void MainWindow::createActions()
 {
 	ui->actionLoad->setShortcut(QKeySequence::Open);
 	ui->actionSave->setShortcut(QKeySequence::Save);
 	ui->actionSave->setShortcut(QKeySequence::HelpContents);
+	ui->actionResize->setShortcut(Qt::CTRL + Qt::Key_R);
+	ui->actionCrop->setShortcut(Qt::CTRL + Qt::Key_C);
 	ui->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
 	ui->actionZoomDefault->setShortcut(Qt::CTRL + Qt::Key_1);
 	ui->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
@@ -90,9 +101,28 @@ void MainWindow::do_resize()
 
 void MainWindow::do_crop()
 {
-    qDebug() << "crop";
-    active_action = Action::crop;
     ui->stackedPanels->setCurrentIndex(2);
+    active_action = Action::crop;
+    ui->cropXSpinBox->setMaximum(image.image_width());
+    ui->cropYSpinBox->setMaximum(image.image_height());
+    ui->cropWidthSpinBox->setMaximum(image.image_width());
+    ui->cropHeightSpinBox->setMaximum(image.image_height());
+    crop_connection = connect(
+        &selection, &Selection::selection_changed, 
+        this, &MainWindow::change_crop_selection
+    );
+}
+
+void MainWindow::change_crop_selection(QRect geometry)
+{
+    if (geometry.x() >= image.geometry().x() && geometry.x() + geometry.width() <= image.geometry().x() + image.image_view_width()) {
+        ui->cropXSpinBox->setValue(geometry.x() - image.geometry().x());
+        ui->cropWidthSpinBox->setValue(geometry.width());
+    }
+    if (geometry.y() >= image.geometry().y()) {
+        ui->cropYSpinBox->setValue(geometry.y() - image.geometry().y());
+        ui->cropHeightSpinBox->setValue(geometry.height());
+    }
 }
 
 void MainWindow::do_transparency()
@@ -111,9 +141,8 @@ void MainWindow::apply_resize()
 void MainWindow::apply_crop()
 {
     qDebug() << "crop apply";
-    ui->stackedPanels->setCurrentIndex(0);
-    selection.stop();
-    active_action = Action::none;
+    image.crop(selection.shape());
+    close_crop();
 }
 
 void MainWindow::apply_transparency()
@@ -123,19 +152,31 @@ void MainWindow::apply_transparency()
     active_action = Action::none;
 }
 
+void MainWindow::close_crop()
+{
+    QObject::disconnect(crop_connection);
+    ui->stackedPanels->setCurrentIndex(0);
+    ui->cropXSpinBox->setValue(0);
+    ui->cropYSpinBox->setValue(0);
+    ui->cropWidthSpinBox->setValue(0);
+    ui->cropHeightSpinBox->setValue(0);
+    selection.stop();
+    active_action = Action::none;
+}
+
 void MainWindow::do_zoom_in()
 {
-    qDebug() << "zoom in";
+    image.scale(1.25);
 }
 
 void MainWindow::do_zoom_default()
 {
-    qDebug() << "default zoom";
+    image.scale(1.0);
 }
 
 void MainWindow::do_zoom_out()
 {
-    qDebug() << "zoom out";
+    image.scale(0.8);
 }
 
 void MainWindow::do_help()

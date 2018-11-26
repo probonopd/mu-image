@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QLabel>
 
 
@@ -22,7 +23,7 @@ Image::Image():
 {
     image_label->setBackgroundRole(QPalette::Base);
     image_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    image_label->setScaledContents(false);
+    image_label->setScaledContents(true);
 
     setBackgroundRole(QPalette::Dark);
     setWidget(image_label);
@@ -90,4 +91,29 @@ void Image::paintEvent(QPaintEvent *event)
 bool Image::underMouse()
 {
     return image_label->underMouse();
+}
+
+void Image::crop(QRect rect)
+{
+    set_image(image.copy(rect));
+}
+
+void Image::scale(double factor)
+{
+    if (factor == 1.0) {
+        scale_factor = 1.0;
+    } else {
+        scale_factor *= factor;
+    }
+
+    image_label->resize(scale_factor * image_label->pixmap()->size());
+
+    auto h = horizontalScrollBar();
+    h->setValue(int(h->value() * scale_factor +
+        ((scale_factor - 1) * h->pageStep() / 2)));
+    auto v = horizontalScrollBar();
+    v->setValue(int(v->value() * scale_factor +
+        ((scale_factor - 1) * v->pageStep() / 2)));
+    // scrollBar->setValue(int(factor * scrollBar->value() +
+        // ((factor - 1) * scrollBar->pageStep()/2)));
 }

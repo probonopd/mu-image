@@ -37,6 +37,7 @@ private slots:
     void apply_resize();
     void apply_crop();
     void apply_transparency();
+    void close_crop();
     void do_zoom_in();
     void do_zoom_default();
     void do_zoom_out();
@@ -45,6 +46,10 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+public slots:
+    void change_crop_selection(QRect geometry);
+private slots:
+    void on_panel_focus(int i);
 private:
     void createActions();
 
@@ -58,5 +63,7 @@ private:
     Image image;
     Selection selection{this};
     Action active_action{Action::none};
+
+    QMetaObject::Connection crop_connection;
 };
 #endif

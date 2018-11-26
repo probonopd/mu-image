@@ -19,13 +19,18 @@ class Image : public QScrollArea
         QString get_error_message() { return error_message; }
 
         bool underMouse();
+        int image_view_width() { return image.width(); }
+        int image_view_height() { return image.width(); }
+        int image_width() { return image.width(); }
+        int image_height() { return image.width(); }
+        void crop(QRect rect);
+        void scale(double factor);
     private:
 		void set_image(const QImage &image_new);
 
         QImage image;
         QString filename;
 
-        QScrollArea *image_scroll_area;
         QLabel *image_label;
         double scale_factor{1.0};
 

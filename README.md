@@ -60,14 +60,30 @@ Possible features:
 - [x] load an image into the central widget.
 - [x] find the right policy for the initial image size on screen.
 - [ ] zoom in and out.
+  - [x] make the zoom work
+  - [ ] disable the zoom when it's too big or too small
+  - [ ] mouse wheel?
+    - https://stackoverflow.com/questions/19113532/qgraphicsview-zooming-in-and-out-under-mouse-position-using-mouse-wheel
+  - https://stackoverflow.com/questions/47708282/zoom-functionality-using-qt
 - [x] standard actions in the menus / toolbar
 - [ ] implement crop
   - [ ] selection
-    - [ ] refactor the selection in its own class
-    - [ ] move the selection
-    - [ ] connect the selection with the crop panel
-    - [ ] make the selection work upwards
+    - [x] refactor the selection in its own class
+    - [x] move the selection
+    - [x] connect the selection with the crop panel
+    - [x] make the selection work upwards
+    - [x] make the QRubberBand a member of selection (do not extend it)
+    - [ ] keep the selection inside of the image borders.
+    - [ ] As soon as the zoom is implemented, fix `Image::image_view_width()` to use the current view width.
+    - [ ] set the spinbox based on the image size.
+    - [ ] change the selection when the spinbox changes
+      - https://wiki.qt.io/New_Signal_Slot_Syntax (see the overloaded signals)
+    - [ ] add grips to the selection?
+      - https://gist.github.com/Riateche/6743108
     - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
+- [ ] avoid extending the widget in QImage and use the image (the issue is, how to put as little as possible in the MainWindow, for setting the centralContainer).
+- [ ] implement resize
+  - have a look at QSizeGrip (for QRubberBand?)
 - [ ] high resolution?
   - http://doc.qt.io/qt-5.6/highdpi.html#high-dpi-support-in-qt
   - https://doc.qt.io/qt-5.6/qtlabscontrols-highdpi.html
