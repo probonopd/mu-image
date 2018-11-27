@@ -1,1 +1,51 @@
 language: c++
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      sudo: required
+      compiler:
+        - gcc
+    - os: osx
+      compiler: clang
+  exclude:
+    - os: osx
+      compiler: gcc
+    - os: linux
+      dist: precise
+    - os: linux
+      dist: trusty
+
+before_install:
+- if [ $TRAVIS_OS_NAME == linux ]; then
+      sudo apt-add-repository ppa:beineri/opt-qt595-xenial -y;
+      sudo apt-get update -qq;
+sudo apt-get install --force-yes cmake
+      qt59base qt59declarative qt59tools
+      coreutils binutils
+  fi
+- if [ $TRAVIS_OS_NAME == osx ]; then brew update; 
+      brew outdated cmake --verbose || brew upgrade cmake; 
+      brew tap homebrew/dupes
+      brew install qt5
+      brew install openssl && brew link --force openssl; 
+      brew outdated pkg-config --verbose || brew upgrade pkg-config; 
+    fi
+script:
+  - if [ $TRAVIS_OS_NAME == linux ]; then
+      source /opt/qt59/bin/qt59-env.sh;
+      if [[ $CC == gcc ]]; then
+        export NPROC=8;
+      else
+        export NPROC=1;
+      fi;
+    cmake . -DCMAKE_INSTALL_PREFIX=/usr;
+    make -j"$NPROC";
+    make install;
+    fi
+  - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
+      cmake . -DBUILD_OSX_BUNDLE=1 -DCMAKE_OSX_ARCHITECTURES="x86_64" -DQT_PREFIX=/usr/local/opt/qt5 -DCMAKE_INSTALL_PREFIX=~/.local;
+      make -j8;
+      make install;
+    fi
