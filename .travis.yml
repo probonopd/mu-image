@@ -23,12 +23,11 @@ before_install:
       sudo apt-get update -qq;
       sudo apt-get install --force-yes cmake
       qt59base qt59declarative qt59tools
-      coreutils binutils
+      coreutils binutils;
   fi
 - if [ $TRAVIS_OS_NAME == osx ]; then brew update; 
       brew outdated cmake --verbose || brew upgrade cmake; 
-      brew tap homebrew/dupes
-      brew install qt5
+      brew install qt5;
       brew install openssl && brew link --force openssl; 
       brew outdated pkg-config --verbose || brew upgrade pkg-config; 
     fi
