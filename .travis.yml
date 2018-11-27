@@ -21,7 +21,7 @@ before_install:
 - if [ $TRAVIS_OS_NAME == linux ]; then
       sudo apt-add-repository ppa:beineri/opt-qt595-xenial -y;
       sudo apt-get update -qq;
-sudo apt-get install --force-yes cmake
+      sudo apt-get install --force-yes cmake
       qt59base qt59declarative qt59tools
       coreutils binutils
   fi
