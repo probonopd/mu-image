@@ -80,7 +80,7 @@ Possible features:
       - https://wiki.qt.io/New_Signal_Slot_Syntax (see the overloaded signals)
     - [ ] add grips to the selection?
       - https://gist.github.com/Riateche/6743108
-    - [ ] change the selection when zoom
+    - [ ] change the selection when zooming
     - [ ] should we (re-)add the "keep proportions"? probably, not... the target user won't probably understand it.
     - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
 - [ ] avoid extending the widget in QImage and use the image (the issue is, how to put as little as possible in the MainWindow, for setting the centralContainer).
@@ -91,7 +91,7 @@ Possible features:
   - https://doc.qt.io/qt-5.6/qtlabscontrols-highdpi.html
 - [x] add a right panel for the actions
 - [ ] should it support jpg or only png?
-- [ ] undo (without buttons, but in the context menu)
+- [ ] undo (without buttons, but in the context menu; and shortcuts)
 - [ ] should i keep "keep proportions" or i should make it the only behavior?
 - [ ] open a file when it's passed as `argv`.
 - [ ] getting the latest path from the settings:
