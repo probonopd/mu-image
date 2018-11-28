@@ -27,7 +27,7 @@ install(TARGETS mu-image
 )
 
 install(PROGRAMS assets/mu-image.desktop
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/applications
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications
 )
 
 target_link_libraries(mu-image

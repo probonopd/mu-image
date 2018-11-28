@@ -46,8 +46,7 @@ script:
       sudo chmod a+w /usr;
       cmake . -DCMAKE_INSTALL_PREFIX=/usr;
       make -j8;
-      make install;
-      make install DESTDIR=AppDir;
+      make install DESTDIR=appdir;
       wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
       chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
       ./linuxdeployqt-continuous-x86_64.AppImage ./appdir/usr/share/applications/*.desktop -appimage;
