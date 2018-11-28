@@ -45,7 +45,8 @@ script:
       source /opt/qt511/bin/qt511-env.sh;
       cmake -DCMAKE_INSTALL_PREFIX=/usr .;
       make -j8;
-      make install;
+      make;
+      sudo make install;
       make install DESTDIR=AppDir;
     fi
   - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
