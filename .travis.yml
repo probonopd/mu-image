@@ -44,7 +44,7 @@ script:
   - if [ $TRAVIS_OS_NAME == linux ]; then
       # source /opt/qt59/bin/qt59-env.sh;
       cmake . -DCMAKE_INSTALL_PREFIX=/usr;
-      make -j8
+      make -j8;
       make install;
     fi
   - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
