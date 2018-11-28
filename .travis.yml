@@ -43,7 +43,7 @@ install:
 script:
   - if [ $TRAVIS_OS_NAME == linux ]; then
       source /opt/qt511/bin/qt511-env.sh;
-      sudo chmod a+w /usr
+      sudo chmod a+w /usr;
       cmake . -DCMAKE_INSTALL_PREFIX=/usr;
       make -j8;
       make install;
