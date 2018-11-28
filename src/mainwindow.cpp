@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setCentralWidget(&image);
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+    // qDebug() << image.geometry().topLeft();
+    // qDebug() << image.pos();
 }
 
 MainWindow::~MainWindow()
@@ -189,16 +191,19 @@ void MainWindow::close_crop()
 void MainWindow::do_zoom_in()
 {
     image.scale(1.25);
+    selection.scale(1.25);
 }
 
 void MainWindow::do_zoom_default()
 {
     image.scale(1.0);
+    selection.scale(1.0);
 }
 
 void MainWindow::do_zoom_out()
 {
     image.scale(0.8);
+    selection.scale(0.8);
 }
 
 void MainWindow::do_help()

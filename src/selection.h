@@ -26,6 +26,7 @@ class Selection : public QObject
         void mouse_moved(QPoint pos);
         void mouse_released();
         QRect shape() const { return rubberband.geometry(); }
+        void scale(double factor);
     public slots:
         void change_selection_x(int x);
         void change_selection_y(int y);
@@ -38,6 +39,8 @@ class Selection : public QObject
         QRubberBand rubberband;
         State state{State::inactive};
         QPoint origin{};
+        double scale_factor{1.0};
+        void scale_rubberband(double factor);
         QPoint move_offset{};
 };
 

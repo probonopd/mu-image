@@ -99,3 +99,15 @@ Possible features:
   - https://stackoverflow.com/questions/50347610/qt-file-dialog-doesnt-remember-the-last-directory-after-restarting-project
 - [ ] On ESC, close the current tool panel
 - [ ] use this https://openclipart.org/detail/244450/image-pics-icon as the application logo
+- [ ] Setup continuos integration
+    - read https://docs.travis-ci.com/user/tutorial/
+    - go to trafvis-ci.org and activate the github repository from your account.
+    - travis automatically adds a matching webhook on github.
+    - create a `.travis.yml` file with `language:cpp` as the content.
+    - add configurations for linux (gcc) and os x (clang)
+    - get travis to install the needed packages through `apt-get` and `brew`
+    - make sure that the `CMakeLists.txt` file has an install step
+    - status:
+      - i'm stuck at `Failed to find "GL/gl.h" in "/usr/include/libdrm". should i add  libdrm-dev?
+    - todo:
+      - read https://github.com/probonopd/linuxdeployqt/ and fix 

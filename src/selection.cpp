@@ -45,6 +45,7 @@ void Selection::mouse_moved(QPoint pos)
         rubberband.setGeometry(QRect(origin, pos).normalized());
     } else if (state == State::moving) {
         rubberband.move(pos - move_offset);
+        qDebug() << rubberband.y();
     }
     auto image_geometry{rubberband.geometry()};
     image_geometry.setX(image_geometry.x() - parent_origin.x());
@@ -59,6 +60,27 @@ void Selection::mouse_released()
         state = State::defined;
     } else if (state == State::moving) {
         state = State::defined;
+    }
+}
+
+void Selection::scale(double factor)
+{
+    if (factor == 1.0) {
+        scale_rubberband(1.0 / scale_factor);
+        scale_factor = 1.0;
+    } else {
+        scale_factor *= factor;
+        scale_rubberband(factor);
+    }
+
+}
+
+void Selection::scale_rubberband(double factor)
+{
+    if (state != State::inactive) {
+        origin = parent_origin + (origin - parent_origin) * factor;
+        QPoint end{origin.x() + (int) (rubberband.width() * factor), origin.y() + (int) (rubberband.height() * factor)};
+        rubberband.setGeometry(QRect(origin, end).normalized());
     }
 }
 
