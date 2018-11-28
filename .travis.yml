@@ -49,8 +49,11 @@ script:
       make install;
       make install DESTDIR=AppDir;
       wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage;
+      wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage;
       chmod +x linuxdeploy-x86_64.AppImage;
-      ./linuxdeploy-x86_64.AppImage --appdir AppDir;
+      ./linuxdeploy-x86_64.AppImage --appdir AppDir -i assets/mu-image.png -d assets/mu-image.desktop --plugin qt --output appimage;
+      ls;
+
     fi
   - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
       cmake . -DBUILD_OSX_BUNDLE=1 -DCMAKE_OSX_ARCHITECTURES="x86_64" -DQT_PREFIX=/usr/local/opt/qt5 -DCMAKE_INSTALL_PREFIX=~/.local;
