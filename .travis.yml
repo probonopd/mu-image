@@ -19,13 +19,20 @@ matrix:
 
 before_install:
 - if [ $TRAVIS_OS_NAME == linux ]; then
-      sudo apt-add-repository ppa:beineri/opt-qt595-xenial -y;
+      sudo apt-add-repository ppa:beineri/opt-qt-5.11.2-xenial -y;
       sudo apt-get update -qq;
-      sudo apt-get install --force-yes cmake
-      qt59base qt59declarative qt59tools
+  fi
+- if [ $TRAVIS_OS_NAME == osx ]; then
+      brew update; 
+    fi
+install:
+- if [ $TRAVIS_OS_NAME == linux ]; then
+      sudo apt-get install --force-yes
+      cmake
+      qt511-meta-minimal
       coreutils binutils;
   fi
-- if [ $TRAVIS_OS_NAME == osx ]; then brew update; 
+- if [ $TRAVIS_OS_NAME == osx ]; then
       brew outdated cmake --verbose || brew upgrade cmake; 
       brew install qt5;
       brew install openssl && brew link --force openssl; 
