@@ -29,7 +29,7 @@ install:
 - if [ $TRAVIS_OS_NAME == linux ]; then
       sudo apt-get install --force-yes
       cmake
-      qt511-meta-minimal
+      qt511-meta-minimal qt511base
       coreutils binutils;
   fi
 - if [ $TRAVIS_OS_NAME == osx ]; then
