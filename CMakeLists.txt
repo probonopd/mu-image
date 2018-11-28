@@ -27,7 +27,7 @@ install(TARGETS mu-image
 )
 
 install(PROGRAMS assets/mu-image.desktop
-    DESTINATION ${XDG_APPS_INSTALL_DIR}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/applications
 )
 
 target_link_libraries(mu-image
