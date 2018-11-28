@@ -23,11 +23,15 @@ add_executable(mu-image
 )
 
 install(TARGETS mu-image
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 
 install(PROGRAMS assets/mu-image.desktop
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications
+)
+
+install(PROGRAMS assets/mu-image.png
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/apps/
 )
 
 target_link_libraries(mu-image

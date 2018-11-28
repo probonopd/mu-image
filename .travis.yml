@@ -49,8 +49,7 @@ script:
       make install DESTDIR=appdir;
       wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
       chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
-      ./linuxdeployqt-continuous-x86_64.AppImage ./appdir/usr/share/applications/*.desktop -appimage;
-      ls;
+      ./linuxdeployqt-continuous-x86_64.AppImage ./appdir/usr/share/applications/mu-image.desktop -appimage;
 
     fi
   - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
