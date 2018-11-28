@@ -30,7 +30,8 @@ install:
 - if [ $TRAVIS_OS_NAME == linux ]; then
       sudo apt-get install -qq
       g++-6
-      qt511base qt511tools;
+      qt511base qt511tools
+      mesa-common-dev;
       sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90;
   fi
 - if [ $TRAVIS_OS_NAME == osx ]; then
