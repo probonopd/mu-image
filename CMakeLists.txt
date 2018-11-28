@@ -23,7 +23,12 @@ add_executable(mu-image
 )
 
 install(TARGETS mu-image
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
+)
+
+install(PROGRAMS assets/mu-image.desktop
+    DESTINATION ${XDG_APPS_INSTALL_DIR}
+)
 
 target_link_libraries(mu-image
     Qt5::Widgets

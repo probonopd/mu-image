@@ -111,3 +111,5 @@ Possible features:
       - i'm stuck at `Failed to find "GL/gl.h" in "/usr/include/libdrm". should i add  libdrm-dev?
     - todo:
       - read https://github.com/probonopd/linuxdeployqt/ and fix 
+    - have a look at the mu-editor `conf/.desktop` file for more fields.
+    - a sample by probono for creating an appimage for a qt app. it's different than <https://docs.appimage.org/packaging-guide/native-binaries.html> and <https://docs.appimage.org/packaging-guide/native-binaries.html#bundling-resources-into-the-appdir>

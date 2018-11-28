@@ -48,10 +48,9 @@ script:
       make -j8;
       make install;
       make install DESTDIR=AppDir;
-      wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage;
-      wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage;
-      chmod +x linuxdeploy-x86_64.AppImage;
-      ./linuxdeploy-x86_64.AppImage --appdir AppDir -i assets/mu-image.png -d assets/mu-image.desktop --plugin qt --output appimage;
+      wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
+      chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
+      ./linuxdeployqt-continuous-x86_64.AppImage ./appdir/usr/share/applications/*.desktop -appimage
       ls;
 
     fi
