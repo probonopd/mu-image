@@ -46,7 +46,7 @@ script:
       cmake -DCMAKE_INSTALL_PREFIX=/usr .;
       make -j8;
       make install;
-      make install DESTDIR=AppDir
+      make install DESTDIR=AppDir;
     fi
   - if [ $TRAVIS_OS_NAME = osx -a $CC = clang ]; then
       cmake . -DBUILD_OSX_BUNDLE=1 -DCMAKE_OSX_ARCHITECTURES="x86_64" -DQT_PREFIX=/usr/local/opt/qt5 -DCMAKE_INSTALL_PREFIX=~/.local;
