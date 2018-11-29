@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
 project(mu-image)
 
@@ -26,6 +26,7 @@ install(TARGETS mu-image
     DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 
+# follow the freedesktop standard
 install(PROGRAMS assets/mu-image.desktop
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications
 )

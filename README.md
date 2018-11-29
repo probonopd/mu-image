@@ -114,3 +114,5 @@ Possible features:
     - have a look at the mu-editor `conf/.desktop` file for more fields.
     - a sample by probono for creating an appimage for a qt app. it's different than <https://docs.appimage.org/packaging-guide/native-binaries.html> and <https://docs.appimage.org/packaging-guide/native-binaries.html#bundling-resources-into-the-appdir>
     - i had to change the target directories in the cmake install to match the structure defined in https://github.com/probonopd/linuxdeployqt#simplest-example
+    - i should go back to linuxdeploy...
+    - it needs at least one icon at 128x128... but you can add more of them with the cmake install into share/icons and they will be used (i think)

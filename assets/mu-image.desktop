@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=mu-image
+Comment=A minimal bitmap image editor for beginner programmers
 Exec=mu-image
-Icon=mu-image
-Categories=Application;Graphics;
+Icon=mu-image-128
+Categories=Graphics;
