@@ -78,7 +78,7 @@ void Selection::scale(double factor)
 void Selection::scale_rubberband(double factor)
 {
     if (state != State::inactive) {
-        origin = parent_origin + (origin - parent_origin) * factor;
+        origin = origin * factor;
         QPoint end{origin.x() + (int) (rubberband.width() * factor), origin.y() + (int) (rubberband.height() * factor)};
         rubberband.setGeometry(QRect(origin, end).normalized());
     }
