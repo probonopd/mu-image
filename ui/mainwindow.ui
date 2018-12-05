@@ -58,9 +58,9 @@
    <addaction name="actionResize"/>
    <addaction name="actionCrop"/>
    <addaction name="actionTransparency"/>
-   <addaction name="actionZoomIn"/>
-   <addaction name="actionZoomDefault"/>
    <addaction name="actionZoomOut"/>
+   <addaction name="actionZoomDefault"/>
+   <addaction name="actionZoomIn"/>
    <addaction name="actionHelp"/>
    <addaction name="actionQuit"/>
   </widget>
