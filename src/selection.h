@@ -16,8 +16,8 @@ class Selection : public QObject
     };
 
     public:
-        explicit Selection(QMainWindow *parent);
-        explicit Selection(QMainWindow *parent, QPoint origin);
+        explicit Selection(QWidget *parent);
+        explicit Selection(QWidget *parent, QPoint origin);
 
         bool is_active() const { return state != State::inactive; }
 

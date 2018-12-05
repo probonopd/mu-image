@@ -31,8 +31,8 @@ install(PROGRAMS assets/mu-image.desktop
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications
 )
 
-install(PROGRAMS assets/mu-image.png
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/apps/
+install(PROGRAMS assets/mu-image-128.png
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps/
 )
 
 target_link_libraries(mu-image

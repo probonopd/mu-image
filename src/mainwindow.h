@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 
+#include <QScrollArea>
 #include <QRubberBand>
 #include "image.h"
-#include "selection.h"
 
 class QLabel;
 class QScrollArea;
@@ -42,16 +42,13 @@ private slots:
     void do_zoom_default();
     void do_zoom_out();
     void do_help();
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 public slots:
     void change_crop_selection(QRect geometry);
 private slots:
     void on_panel_focus(int i);
 private:
     void createActions();
+    void scale_scroll_bar();
 
     void do_close();
     void show_error_message(QString message);
@@ -60,8 +57,8 @@ private:
     void disable_action_buttons();
 
 	Ui::MainWindow *ui;
-    Image image;
-    Selection selection;
+    Image image{};
+    QScrollArea scroll_area{};
     Action active_action{Action::none};
 
     QMetaObject::Connection crop_selection_connection;

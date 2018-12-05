@@ -2,12 +2,12 @@
 
 #include <QDebug>
 
-Selection::Selection(QMainWindow *parent) :
+Selection::Selection(QWidget *parent) :
     Selection(parent, {0, 0})
 {
 }
 
-Selection::Selection(QMainWindow *parent, QPoint origin) :
+Selection::Selection(QWidget *parent, QPoint origin) :
     rubberband{QRubberBand::Rectangle, parent},
     parent_origin{origin}
 {

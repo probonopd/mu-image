@@ -2,8 +2,6 @@
 
 #include <QDebug>
 
-#include <QScrollArea>
-#include <QScrollBar>
 #include <QLabel>
 
 
@@ -17,22 +15,19 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QRect>
+#include <QPoint>
 
 Image::Image():
-    image_label(new QLabel)
+    selection{this},
+    QLabel()
 {
-    image_label->setBackgroundRole(QPalette::Base);
-    image_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    image_label->setScaledContents(true);
-
-    setBackgroundRole(QPalette::Dark);
-    setWidget(image_label);
-    setVisible(false);
+    setBackgroundRole(QPalette::Base);
+    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    setScaledContents(true);
 }
 
 Image::~Image()
 {
-    delete image_label;
 }
 
 bool Image::open(QString filename)
@@ -41,79 +36,91 @@ bool Image::open(QString filename)
 
     QImageReader reader(filename);
     reader.setAutoTransform(true);
-    const QImage image_new = reader.read();
-    if (image_new.isNull()) {
+    image = reader.read();
+    if (image.isNull()) {
         error_message = tr("Cannot load %1: %2")
             .arg(QDir::toNativeSeparators(filename), reader.errorString());
         return false;
     }
 
-    set_image(image_new);
+    update_view();
 
     setWindowFilePath(filename);
 
     status_message = tr("Opened \"%1\", %2x%3")
-        .arg(QDir::toNativeSeparators(filename)).arg(image_new.width()).arg(image_new.height());
+        .arg(QDir::toNativeSeparators(filename)).arg(image.width()).arg(image.height());
     return true;
 
 }
 
-void Image::set_image(const QImage &image_new)
+void Image::update_view()
 {
-    image = image_new;
-    image_label->setPixmap(QPixmap::fromImage(image));
+    setPixmap(QPixmap::fromImage(image));
     scale_factor = 1.0;
 
     setVisible(true);
 
-    image_label->adjustSize();
+    adjustSize();
 }
 
-void Image::update_view()
-{
-    // TODO: scale to something sensible (photoTweaker is scaling to the window size... we should not do the same.)
     /*
-    image_view = image_original;
-    update();
-    */
-}
-
 void Image::paintEvent(QPaintEvent *event)
 {
-    /*
     QPainter painter(this);
     QRect dirty_rect = event->rect();
     painter.drawImage(dirty_rect, image_view, dirty_rect);
     qDebug() << "...";
+}
     */
-}
 
-bool Image::underMouse()
+void Image::crop()
 {
-    return image_label->underMouse();
-}
-
-void Image::crop(QRect rect)
-{
-    set_image(image.copy(rect));
+    image = image.copy(selection.shape());
+    update_view();
 }
 
 void Image::scale(double factor)
 {
+    selection.scale(1.25);
+
     if (factor == 1.0) {
         scale_factor = 1.0;
     } else {
         scale_factor *= factor;
     }
 
-    image_label->resize(scale_factor * image_label->pixmap()->size());
+    resize(scale_factor * pixmap()->size());
 
-    auto h = horizontalScrollBar();
-    h->setValue(int(h->value() * scale_factor +
-        ((scale_factor - 1) * h->pageStep() / 2)));
-    auto v = horizontalScrollBar();
-    v->setValue(int(v->value() * scale_factor +
-        ((scale_factor - 1) * v->pageStep() / 2)));
-    // scrollBar->setValue(int(factor * scrollBar->value() +
-        // ((factor - 1) * scrollBar->pageStep()/2)));
+}
+
+void Image::mousePressEvent(QMouseEvent *event)
+{
+    if (can_select) {
+        start_selection(event->pos());
+    }
+}
+
+void Image::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (selection.is_active()) {
+        selection.mouse_released();
+    }
+}
+
+
+void Image::mouseMoveEvent(QMouseEvent *event)
+{
+    if (selection.is_active()) {
+        selection.mouse_moved(event->pos());
+    }
+}
+
+void Image::start_selection(QPoint pos)
+{
+    selection.start(pos);
+}
+
+void Image::stop_selection()
+{
+    selection.stop();
 }

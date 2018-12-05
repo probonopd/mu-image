@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "image.h"
+#include "selection.h"
 #include "../ui/ui_mainwindow.h"
 
 #include <QtWidgets>
@@ -10,14 +11,15 @@
 #include <QMessageBox>
 #include <QGuiApplication>
 
+#include <QScrollBar>
+
 #include <QMouseEvent>
 #include <QSpinBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    image{},
-    selection{this, image.geometry().topLeft()}
+    image{}
 {
 	ui->setupUi(this);
 
@@ -26,9 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     hide_panels();
 
+    scroll_area.setBackgroundRole(QPalette::Dark);
+    scroll_area.setWidget(&image);
+    scroll_area.setVisible(true);
+
     connect(ui->stackedPanels, &QStackedWidget::currentChanged, this, &MainWindow::on_panel_focus);
 
-    setCentralWidget(&image);
+    setCentralWidget(&scroll_area);
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
     // qDebug() << image.geometry().topLeft();
     // qDebug() << image.pos();
@@ -105,12 +111,21 @@ void MainWindow::do_resize()
 
 void MainWindow::do_crop()
 {
+
     ui->stackedPanels->setCurrentIndex(2);
+
+
     active_action = Action::crop;
-    ui->cropXSpinBox->setMaximum(image.image_width());
-    ui->cropYSpinBox->setMaximum(image.image_height());
-    ui->cropWidthSpinBox->setMaximum(image.image_width());
-    ui->cropHeightSpinBox->setMaximum(image.image_height());
+
+    ui->cropXSpinBox->setMaximum(image.width());
+    ui->cropYSpinBox->setMaximum(image.height());
+    ui->cropWidthSpinBox->setMaximum(image.width());
+    ui->cropHeightSpinBox->setMaximum(image.height());
+
+
+    image.enable_selection();
+
+    Selection& selection = image.get_selection();
     crop_selection_connection = connect(
         &selection, &Selection::selection_changed, 
         this, &MainWindow::change_crop_selection
@@ -136,7 +151,7 @@ void MainWindow::do_crop()
 
 void MainWindow::change_crop_selection(QRect geometry)
 {
-    if (geometry.x() >= image.geometry().x() && geometry.x() + geometry.width() <= image.geometry().x() + image.image_view_width()) {
+    if (geometry.x() >= image.geometry().x() && geometry.x() + geometry.width() <= image.geometry().x() + image.view_width()) {
         ui->cropXSpinBox->setValue(geometry.x());
         ui->cropWidthSpinBox->setValue(geometry.width());
     }
@@ -162,7 +177,7 @@ void MainWindow::apply_resize()
 void MainWindow::apply_crop()
 {
     qDebug() << "crop apply";
-    image.crop(selection.shape());
+    image.crop();
     close_crop();
 }
 
@@ -184,26 +199,41 @@ void MainWindow::close_crop()
     ui->cropYSpinBox->setValue(0);
     ui->cropWidthSpinBox->setValue(0);
     ui->cropHeightSpinBox->setValue(0);
-    selection.stop();
     active_action = Action::none;
+    image.stop_selection();
+    image.enable_selection(false);
 }
 
 void MainWindow::do_zoom_in()
 {
     image.scale(1.25);
-    selection.scale(1.25);
+    scale_scroll_bar();
 }
 
 void MainWindow::do_zoom_default()
 {
     image.scale(1.0);
-    selection.scale(1.0);
+    scale_scroll_bar();
 }
 
 void MainWindow::do_zoom_out()
 {
     image.scale(0.8);
-    selection.scale(0.8);
+    scale_scroll_bar();
+}
+
+void MainWindow::scale_scroll_bar()
+{
+    auto scale_factor = image.get_scale();
+
+    auto h = scroll_area.horizontalScrollBar();
+    h->setValue(int(h->value() * scale_factor +
+        ((scale_factor - 1) * h->pageStep() / 2)));
+    auto v = scroll_area.horizontalScrollBar();
+    v->setValue(int(v->value() * scale_factor +
+        ((scale_factor - 1) * v->pageStep() / 2)));
+    // scrollBar->setValue(int(factor * scrollBar->value() +
+        // ((factor - 1) * scrollBar->pageStep()/2)));
 }
 
 void MainWindow::do_help()
@@ -224,25 +254,6 @@ void MainWindow::show_error_message(QString message)
 void MainWindow::hide_panels()
 {
     ui->stackedPanels->setCurrentIndex(0);
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if (active_action == Action::crop && image.underMouse()) {
-        selection.start(event->pos());
-    }
-}
-
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if (selection.is_active()) {
-        selection.mouse_moved(event->pos());
-    }
-}
-
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    selection.mouse_released();
 }
 
 void MainWindow::enable_action_buttons()

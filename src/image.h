@@ -1,41 +1,51 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <QScrollArea>
+#include "selection.h"
+
+#include <QLabel>
 
 class QMainWindow;
-class QLabel;
 class QImage;
 
-class Image : public QScrollArea
+class Image : public QLabel
 {
     public:
         explicit Image();
         ~Image();
         bool open(QString filename);
-        void update_view();
-        void paintEvent(QPaintEvent *event) override;
+        // void paintEvent(QPaintEvent *event) override;
         QString get_status_message() { return status_message; }
         QString get_error_message() { return error_message; }
 
-        bool underMouse();
-        int image_view_width() { return image.width(); }
-        int image_view_height() { return image.width(); }
-        int image_width() { return image.width(); }
-        int image_height() { return image.width(); }
-        void crop(QRect rect);
+        int view_width() { return width(); }
+        int view_height() { return width(); }
+        void crop();
         void scale(double factor);
+        double get_scale() { return scale_factor; }
+        void enable_selection(bool enable = true) { can_select = enable; }
+        void start_selection(QPoint pos);
+        void stop_selection();
+        // TODO: not a good idea... how to proxy the signal?
+        Selection& get_selection() { return selection; }
+        void mousePressEvent(QMouseEvent *event) override;
+        void mouseMoveEvent(QMouseEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
+    signals:
+        void selection_changed(QRect geometry);
     private:
-		void set_image(const QImage &image_new);
+		void update_view();
 
         QImage image;
         QString filename;
 
-        QLabel *image_label;
         double scale_factor{1.0};
 
         QString status_message{};
         QString error_message{};
+
+        Selection selection;
+        bool can_select{false};
 };
 
 #endif
