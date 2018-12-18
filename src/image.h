@@ -10,6 +10,8 @@ class QImage;
 
 class Image : public QLabel
 {
+    Q_OBJECT
+
     public:
         explicit Image();
         ~Image();
@@ -23,14 +25,21 @@ class Image : public QLabel
         void crop();
         void scale(double factor);
         double get_scale() { return scale_factor; }
-        void enable_selection(bool enable = true) { can_select = enable; }
-        void start_selection(QPoint pos);
+        void enable_selection(bool enable = true);
         void stop_selection();
         // TODO: not a good idea... how to proxy the signal?
         Selection& get_selection() { return selection; }
+
         void mousePressEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
+    public slots:
+        void create_selection(QRect geometry);
+        void change_selection(QRect geometry);
+        void change_selection_x(int x);
+        void change_selection_y(int y);
+        void change_selection_width(int width);
+        void change_selection_height(int height);
     signals:
         void selection_changed(QRect geometry);
     private:
@@ -46,6 +55,8 @@ class Image : public QLabel
 
         Selection selection;
         bool can_select{false};
+        QRect selection_shape{};
+        QMetaObject::Connection selection_connection;
 };
 
 #endif

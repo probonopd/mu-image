@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "image.h"
-#include "selection.h"
 #include "../ui/ui_mainwindow.h"
 
 #include <QtWidgets>
@@ -125,40 +124,45 @@ void MainWindow::do_crop()
 
     image.enable_selection();
 
-    Selection& selection = image.get_selection();
-    crop_selection_connection = connect(
-        &selection, &Selection::selection_changed, 
+    crop_connection.append(connect(
+        &image, &Image::selection_changed,
         this, &MainWindow::change_crop_selection
-    );
+    ));
 
-    crop_spinbox_connection.append(connect(
+    crop_connection.append(connect(
         ui->cropXSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-        &selection, &Selection::change_selection_x
+        &image, &Image::change_selection_x
     ));
-    crop_spinbox_connection.append(connect(
+    crop_connection.append(connect(
         ui->cropYSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-        &selection, &Selection::change_selection_y
+        &image, &Image::change_selection_y
     ));
-    crop_spinbox_connection.append(connect(
+    crop_connection.append(connect(
         ui->cropWidthSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-        &selection, &Selection::change_selection_width
+        &image, &Image::change_selection_width
     ));
-    crop_spinbox_connection.append(connect(
+    crop_connection.append(connect(
         ui->cropHeightSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-        &selection, &Selection::change_selection_height
+        &image, &Image::change_selection_height
     ));
 }
 
 void MainWindow::change_crop_selection(QRect geometry)
 {
-    if (geometry.x() >= image.geometry().x() && geometry.x() + geometry.width() <= image.geometry().x() + image.view_width()) {
-        ui->cropXSpinBox->setValue(geometry.x());
-        ui->cropWidthSpinBox->setValue(geometry.width());
-    }
-    if (geometry.y() >= image.geometry().y()) {
-        ui->cropYSpinBox->setValue(geometry.y());
-        ui->cropHeightSpinBox->setValue(geometry.height());
-    }
+    auto x_signal = ui->cropXSpinBox->blockSignals(true);
+    auto y_signal = ui->cropYSpinBox->blockSignals(true);
+    auto w_signal = ui->cropWidthSpinBox->blockSignals(true);
+    auto h_signal = ui->cropHeightSpinBox->blockSignals(true);
+
+    ui->cropXSpinBox->setValue(geometry.x());
+    ui->cropWidthSpinBox->setValue(geometry.width());
+    ui->cropYSpinBox->setValue(geometry.y());
+    ui->cropHeightSpinBox->setValue(geometry.height());
+
+    ui->cropXSpinBox->blockSignals(x_signal);
+    ui->cropYSpinBox->blockSignals(y_signal);
+    ui->cropWidthSpinBox->blockSignals(w_signal);
+    ui->cropHeightSpinBox->blockSignals(h_signal);
 }
 
 void MainWindow::do_transparency()
@@ -190,8 +194,7 @@ void MainWindow::apply_transparency()
 
 void MainWindow::close_crop()
 {
-    QObject::disconnect(crop_selection_connection);
-    for (auto& connection: crop_spinbox_connection) {
+    for (auto& connection: crop_connection) {
         QObject::disconnect(connection);
     }
     ui->stackedPanels->setCurrentIndex(0);

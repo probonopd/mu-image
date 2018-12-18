@@ -24,6 +24,7 @@ Image::Image():
     setBackgroundRole(QPalette::Base);
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     setScaledContents(true);
+
 }
 
 Image::~Image()
@@ -81,13 +82,14 @@ void Image::crop()
 
 void Image::scale(double factor)
 {
-    selection.scale(1.25);
 
     if (factor == 1.0) {
         scale_factor = 1.0;
     } else {
         scale_factor *= factor;
     }
+
+    selection.set_scale(scale_factor);
 
     resize(scale_factor * pixmap()->size());
 
@@ -96,7 +98,7 @@ void Image::scale(double factor)
 void Image::mousePressEvent(QMouseEvent *event)
 {
     if (can_select) {
-        start_selection(event->pos());
+        selection.click(event->pos());
     }
 }
 
@@ -115,9 +117,49 @@ void Image::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void Image::start_selection(QPoint pos)
+void Image::create_selection(QRect geometry)
 {
-    selection.start(pos);
+    emit selection_changed(geometry);
+}
+
+void Image::change_selection(QRect geometry)
+{
+    selection_shape = geometry;
+    emit selection_changed(geometry);
+}
+
+void Image::change_selection_x(int x)
+{
+    selection.move_x(x);
+}
+
+void Image::change_selection_y(int y)
+{
+    selection.move_y(y);
+}
+
+void Image::change_selection_width(int width)
+{
+    selection.resize_width(width);
+}
+void Image::change_selection_height(int height)
+{
+    selection.resize_height(height);
+}
+
+
+void Image::enable_selection(bool enable)
+{
+    can_select = enable;
+
+    if (enable == true) {
+        selection_connection = connect(
+            &selection, &Selection::selection_changed,
+            this, &Image::change_selection
+        );
+    } else {
+        QObject::disconnect(selection_connection);
+    }
 }
 
 void Image::stop_selection()

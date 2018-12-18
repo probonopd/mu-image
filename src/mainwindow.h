@@ -62,6 +62,6 @@ private:
     Action active_action{Action::none};
 
     QMetaObject::Connection crop_selection_connection;
-    QVector<QMetaObject::Connection> crop_spinbox_connection;
+    QVector<QMetaObject::Connection> crop_connection;
 };
 #endif

@@ -74,14 +74,14 @@ Possible features:
     - [x] make the selection work upwards
     - [x] make the QRubberBand a member of selection (do not extend it)
     - [ ] keep the selection inside of the image borders.
-    - [ ] As soon as the zoom is implemented, fix `Image::image_view_width()` to use the current view width.
+    - [x] As soon as the zoom is implemented, fix `Image::image_view_width()` to use the current view width.
     - [x] set the spinbox based on the image size.
     - [x] change the selection when the spinbox changes
       - https://wiki.qt.io/New_Signal_Slot_Syntax (see the overloaded signals)
     - [ ] add grips to the selection?
       - https://gist.github.com/Riateche/6743108
-    - [ ] change the selection when zooming
-    - [ ] should we (re-)add the "keep proportions"? probably, not... the target user won't probably understand it.
+    - [x] change the selection when zooming
+    - [x] should we (re-)add the "keep proportions"? probably, not... the target user won't probably understand it.
     - https://stackoverflow.com/questions/11881989/using-qrubberband-to-crop-image-in-qt
 - [ ] avoid extending the widget in QImage and use the image (the issue is, how to put as little as possible in the MainWindow, for setting the centralContainer).
 - [ ] implement resize
@@ -89,7 +89,7 @@ Possible features:
 - [ ] high resolution?
   - http://doc.qt.io/qt-5.6/highdpi.html#high-dpi-support-in-qt
   - https://doc.qt.io/qt-5.6/qtlabscontrols-highdpi.html
-- [x] add a right panel for the actions
+- [x] add a left panel for the actions
 - [ ] should it support jpg or only png?
 - [ ] undo (without buttons, but in the context menu; and shortcuts)
 - [ ] should i keep "keep proportions" or i should make it the only behavior?
@@ -116,3 +116,4 @@ Possible features:
     - i had to change the target directories in the cmake install to match the structure defined in https://github.com/probonopd/linuxdeployqt#simplest-example
     - i should go back to linuxdeploy...
     - it needs at least one icon at 128x128... but you can add more of them with the cmake install into share/icons and they will be used (i think)
+- flip h/v?

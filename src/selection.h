@@ -21,27 +21,34 @@ class Selection : public QObject
 
         bool is_active() const { return state != State::inactive; }
 
-        void start(QPoint pos);
+        void click(QPoint pos);
         void stop();
         void mouse_moved(QPoint pos);
         void mouse_released();
-        QRect shape() const { return rubberband.geometry(); }
-        void scale(double factor);
-    public slots:
-        void change_selection_x(int x);
-        void change_selection_y(int y);
-        void change_selection_width(int width);
-        void change_selection_height(int height);
+        void move_x(int x);
+        void move_y(int y);
+        void resize_width(int width);
+        void resize_height(int height);
+        QRect shape() const { return geometry; }
+        void set_shape(QRect shape) {  rubberband.setGeometry(shape.normalized()); }
+        void set_scale(double factor);
     signals:
+        void selection_created(QRect geometry);
         void selection_changed(QRect geometry);
     private:
+        // TODO: to be deleted...
         QPoint parent_origin{};
         QRubberBand rubberband;
+        QRect geometry{};
+        QRect scaled_geometry{};
         State state{State::inactive};
         QPoint origin{};
+        QPoint scaled_origin{};
         double scale_factor{1.0};
-        void scale_rubberband(double factor);
+        QPoint scaled_move_offset{};
         QPoint move_offset{};
+
+        QRect get_scaled_rect(QRect rect, double scale) const;
 };
 
 #endif
