@@ -66,11 +66,11 @@ void MainWindow::createActions()
     ui->actionQuit->setShortcut(QKeySequence::Quit);
 
     undoAction = undoStack.createUndoAction(this, tr("&Undo"));
-    undoAction->setShortcuts(QKeySequence::Undo);
+    undoAction->setShortcut(QKeySequence::Undo);
     contextMenu.addAction(undoAction);
 
     redoAction = undoStack.createRedoAction(this, tr("&Redo"));
-    redoAction->setShortcuts(QKeySequence::Redo);
+    redoAction->setShortcut(QKeySequence::Redo);
     contextMenu.addAction(redoAction);
 }
 
