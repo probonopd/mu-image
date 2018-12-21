@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
 
     createActions();
     disable_action_buttons();
@@ -55,22 +55,22 @@ void MainWindow::on_panel_focus(int i)
 
 void MainWindow::createActions()
 {
-	ui->actionLoad->setShortcut(QKeySequence::Open);
-	ui->actionSave->setShortcut(QKeySequence::Save);
-	ui->actionSave->setShortcut(QKeySequence::HelpContents);
-	ui->actionResize->setShortcut(Qt::CTRL + Qt::Key_R);
-	ui->actionCrop->setShortcut(Qt::CTRL + Qt::Key_C);
-	ui->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
-	ui->actionZoomDefault->setShortcut(Qt::CTRL + Qt::Key_1);
-	ui->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
-	ui->actionQuit->setShortcut(QKeySequence::Quit);
+    ui->actionLoad->setShortcut(QKeySequence::Open);
+    ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionSave->setShortcut(QKeySequence::HelpContents);
+    ui->actionResize->setShortcut(Qt::CTRL + Qt::Key_R);
+    ui->actionCrop->setShortcut(Qt::CTRL + Qt::Key_C);
+    ui->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
+    ui->actionZoomDefault->setShortcut(Qt::CTRL + Qt::Key_1);
+    ui->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
+    ui->actionQuit->setShortcut(QKeySequence::Quit);
 
     undoAction = undoStack.createUndoAction(this, tr("&Undo"));
-	undoAction->setShortcuts(QKeySequence::Undo);
+    undoAction->setShortcuts(QKeySequence::Undo);
     contextMenu.addAction(undoAction);
 
     redoAction = undoStack.createRedoAction(this, tr("&Redo"));
-	redoAction->setShortcuts(QKeySequence::Redo);
+    redoAction->setShortcuts(QKeySequence::Redo);
     contextMenu.addAction(redoAction);
 }
 
@@ -78,11 +78,11 @@ void MainWindow::do_load()
 {
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
-	QStringList mimeTypeFilters;
-	mimeTypeFilters
-		// << "image/jpeg"
-		<< "image/png";
-	dialog.setMimeTypeFilters(mimeTypeFilters);
+    QStringList mimeTypeFilters;
+    mimeTypeFilters
+        // << "image/jpeg"
+        << "image/png";
+    dialog.setMimeTypeFilters(mimeTypeFilters);
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.exec();
 
