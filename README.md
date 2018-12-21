@@ -38,6 +38,8 @@ Possible features:
 - Crop icon inspired by <https://openclipart.org/detail/196865/mono-crop>
 - Ghost icon inspired by <https://openclipart.org/detail/17847/cartoon-ghost>
 
+Read chapter 5 of "Hands-on GUI programming with C++ and Qt5" for ideas on scaling and cropping an image.
+
 ## How-to
 
 - Adding custom (`MainWindow`) slots in Qt Designer:
@@ -92,6 +94,7 @@ Possible features:
 - [x] add a left panel for the actions
 - [ ] should it support jpg or only png?
 - [ ] undo (without buttons, but in the context menu; and shortcuts)
+  - [ ] as a first step undo actions (but not selection movements)
 - [ ] should i keep "keep proportions" or i should make it the only behavior?
 - [ ] open a file when it's passed as `argv`.
 - [ ] getting the latest path from the settings:
@@ -116,4 +119,3 @@ Possible features:
     - i had to change the target directories in the cmake install to match the structure defined in https://github.com/probonopd/linuxdeployqt#simplest-example
     - i should go back to linuxdeploy...
     - it needs at least one icon at 128x128... but you can add more of them with the cmake install into share/icons and they will be used (i think)
-- flip h/v?

@@ -17,7 +17,10 @@
 #include <QRect>
 #include <QPoint>
 
-Image::Image():
+#include "mainwindow.h"
+
+Image::Image(MainWindow* parent):
+    parent{parent},
     selection{this},
     QLabel()
 {
@@ -25,10 +28,15 @@ Image::Image():
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     setScaledContents(true);
 
+    initUndo();
+
 }
 
 Image::~Image()
 {
+}
+
+void Image::initUndo() {
 }
 
 bool Image::open(QString filename)
@@ -63,16 +71,6 @@ void Image::update_view()
 
     adjustSize();
 }
-
-    /*
-void Image::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    QRect dirty_rect = event->rect();
-    painter.drawImage(dirty_rect, image_view, dirty_rect);
-    qDebug() << "...";
-}
-    */
 
 void Image::crop()
 {
@@ -165,4 +163,9 @@ void Image::enable_selection(bool enable)
 void Image::stop_selection()
 {
     selection.stop();
+}
+
+void Image::contextMenuEvent(QContextMenuEvent *event)
+{
+    parent->contextMenu.popup(event->globalPos());
 }

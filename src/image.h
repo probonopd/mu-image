@@ -4,22 +4,28 @@
 #include "selection.h"
 
 #include <QLabel>
+#include <QUndoStack>
+#include <QAction>
+#include <QMenu>
 
-class QMainWindow;
 class QImage;
+class MainWindow;
 
 class Image : public QLabel
 {
     Q_OBJECT
 
     public:
-        explicit Image();
+        explicit Image(MainWindow* parent);
         ~Image();
+        void initUndo();
         bool open(QString filename);
         // void paintEvent(QPaintEvent *event) override;
         QString get_status_message() { return status_message; }
         QString get_error_message() { return error_message; }
 
+        QImage get() { return image; }
+        void set(QImage i) { image = i; }
         int view_width() { return width(); }
         int view_height() { return width(); }
         void crop();
@@ -42,9 +48,11 @@ class Image : public QLabel
         void change_selection_height(int height);
     signals:
         void selection_changed(QRect geometry);
+    public:
+		void update_view(); // needed by the commands' undo
     private:
-		void update_view();
 
+        MainWindow* parent;
         QImage image;
         QString filename;
 
@@ -57,6 +65,12 @@ class Image : public QLabel
         bool can_select{false};
         QRect selection_shape{};
         QMetaObject::Connection selection_connection;
+    /*
+    protected slots:
+        void customContextMenuEvent(QContextMenuEvent *event) override;
+    */
+    protected:
+        void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
 #endif

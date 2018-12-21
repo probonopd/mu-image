@@ -15,10 +15,11 @@
 #include <QMouseEvent>
 #include <QSpinBox>
 
+#include "cropcommand.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    image{}
+    ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
     // qDebug() << image.geometry().topLeft();
     // qDebug() << image.pos();
+
 }
 
 MainWindow::~MainWindow()
@@ -62,6 +64,14 @@ void MainWindow::createActions()
 	ui->actionZoomDefault->setShortcut(Qt::CTRL + Qt::Key_1);
 	ui->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
 	ui->actionQuit->setShortcut(QKeySequence::Quit);
+
+    undoAction = undoStack.createUndoAction(this, tr("&Undo"));
+	undoAction->setShortcuts(QKeySequence::Undo);
+    contextMenu.addAction(undoAction);
+
+    redoAction = undoStack.createRedoAction(this, tr("&Redo"));
+	redoAction->setShortcuts(QKeySequence::Redo);
+    contextMenu.addAction(redoAction);
 }
 
 void MainWindow::do_load()
@@ -180,8 +190,7 @@ void MainWindow::apply_resize()
 
 void MainWindow::apply_crop()
 {
-    qDebug() << "crop apply";
-    image.crop();
+    undoStack.push(new Crop_command(image));
     close_crop();
 }
 
@@ -280,10 +289,3 @@ void MainWindow::disable_action_buttons()
     ui->actionZoomDefault->setEnabled(false);
     ui->actionZoomOut->setEnabled(false);
 }
-/*
-void MainWindow::about()
-{
-    QMessageBox::about(this, tr("About this sample"),
-        tr("This <i>Sample</i> creates a window with a menu bar."));
-}
-*/

@@ -5,6 +5,9 @@
 
 #include <QScrollArea>
 #include <QRubberBand>
+#include <QUndoStack>
+#include <QAction>
+#include <QMenu>
 #include "image.h"
 
 class QLabel;
@@ -48,6 +51,7 @@ private slots:
     void on_panel_focus(int i);
 private:
     void createActions();
+
     void scale_scroll_bar();
 
     void do_close();
@@ -57,11 +61,17 @@ private:
     void disable_action_buttons();
 
 	Ui::MainWindow *ui;
-    Image image{};
+    Image image{this};
     QScrollArea scroll_area{};
     Action active_action{Action::none};
 
+    QUndoStack undoStack{this};
+    QAction* undoAction;
+    QAction* redoAction;
+
     QMetaObject::Connection crop_selection_connection;
     QVector<QMetaObject::Connection> crop_connection;
+public:
+    QMenu contextMenu{&image};
 };
 #endif
