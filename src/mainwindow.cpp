@@ -218,32 +218,32 @@ void MainWindow::close_crop()
 
 void MainWindow::do_zoom_in()
 {
-    image.scale(1.25);
-    scale_scroll_bar();
+    image.zoom(1.25);
+    zoom_scroll_bar();
 }
 
 void MainWindow::do_zoom_default()
 {
-    image.scale(1.0);
-    scale_scroll_bar();
+    image.zoom(1.0);
+    zoom_scroll_bar();
 }
 
 void MainWindow::do_zoom_out()
 {
-    image.scale(0.8);
-    scale_scroll_bar();
+    image.zoom(0.8);
+    zoom_scroll_bar();
 }
 
-void MainWindow::scale_scroll_bar()
+void MainWindow::zoom_scroll_bar()
 {
-    auto scale_factor = image.get_scale();
+    auto zoom_factor = image.get_zoom();
 
     auto h = scroll_area.horizontalScrollBar();
-    h->setValue(int(h->value() * scale_factor +
-        ((scale_factor - 1) * h->pageStep() / 2)));
+    h->setValue(int(h->value() * zoom_factor +
+        ((zoom_factor - 1) * h->pageStep() / 2)));
     auto v = scroll_area.horizontalScrollBar();
-    v->setValue(int(v->value() * scale_factor +
-        ((scale_factor - 1) * v->pageStep() / 2)));
+    v->setValue(int(v->value() * zoom_factor +
+        ((zoom_factor - 1) * v->pageStep() / 2)));
     // scrollBar->setValue(int(factor * scrollBar->value() +
         // ((factor - 1) * scrollBar->pageStep()/2)));
 }

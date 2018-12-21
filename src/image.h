@@ -29,8 +29,8 @@ class Image : public QLabel
         int view_width() { return width(); }
         int view_height() { return width(); }
         void crop();
-        void scale(double factor);
-        double get_scale() { return scale_factor; }
+        void zoom(double factor);
+        double get_zoom() { return zoom_factor; }
         void enable_selection(bool enable = true);
         void stop_selection();
         // TODO: not a good idea... how to proxy the signal?
@@ -56,7 +56,7 @@ class Image : public QLabel
         QImage image;
         QString filename;
 
-        double scale_factor{1.0};
+        double zoom_factor{1.0};
 
         QString status_message{};
         QString error_message{};

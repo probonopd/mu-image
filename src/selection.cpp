@@ -17,30 +17,30 @@ void Selection::click(QPoint pos)
 {
     if (state == State::inactive) {
         state = State::creating;
-        scaled_origin = pos;
-        origin = scaled_origin / scale_factor;
+        zoomed_origin = pos;
+        origin = zoomed_origin / zoom_factor;
 
-        scaled_geometry = QRect(pos, pos).normalized();
+        zoomed_geometry = QRect(pos, pos).normalized();
         geometry = QRect(origin, origin).normalized();
 
         rubberband.show();
-        rubberband.setGeometry(scaled_geometry);
+        rubberband.setGeometry(zoomed_geometry);
         emit selection_created(geometry);
     } else if (state == State::defined) {
         if (rubberband.geometry().contains(pos)) {
             state = State::moving;
-            scaled_move_offset = pos - scaled_geometry.topLeft();
-            move_offset = (pos / scale_factor) - geometry.topLeft();
+            zoomed_move_offset = pos - zoomed_geometry.topLeft();
+            move_offset = (pos / zoom_factor) - geometry.topLeft();
         } else {
             state = State::creating;
 
-            scaled_origin = pos;
-            origin = scaled_origin / scale_factor;
+            zoomed_origin = pos;
+            origin = zoomed_origin / zoom_factor;
 
-            scaled_geometry = QRect(scaled_origin, scaled_origin);
-            geometry = get_scaled_rect(scaled_geometry, 1 / scale_factor);
+            zoomed_geometry = QRect(zoomed_origin, zoomed_origin);
+            geometry = get_zoomed_rect(zoomed_geometry, 1 / zoom_factor);
 
-            rubberband.setGeometry(scaled_geometry);
+            rubberband.setGeometry(zoomed_geometry);
         }
     }
 }
@@ -55,15 +55,15 @@ void Selection::stop()
 void Selection::mouse_moved(QPoint pos)
 {
     if (state == State::creating) {
-        scaled_geometry = QRect(scaled_origin, pos).normalized();
-        geometry = QRect(origin, pos / scale_factor).normalized();
+        zoomed_geometry = QRect(zoomed_origin, pos).normalized();
+        geometry = QRect(origin, pos / zoom_factor).normalized();
 
-        rubberband.setGeometry(scaled_geometry);
+        rubberband.setGeometry(zoomed_geometry);
     } else if (state == State::moving) {
-        scaled_geometry.setTopLeft(pos - scaled_move_offset);
-        geometry.setTopLeft(pos / scale_factor - move_offset);
+        zoomed_geometry.setTopLeft(pos - zoomed_move_offset);
+        geometry.setTopLeft(pos / zoom_factor - move_offset);
 
-        rubberband.setGeometry(scaled_geometry);
+        rubberband.setGeometry(zoomed_geometry);
     }
 
     emit selection_changed(geometry);
@@ -82,50 +82,50 @@ void Selection::mouse_released()
 void Selection::move_x(int x)
 {
     geometry.translate(x - geometry.x(), 0);
-    scaled_geometry = get_scaled_rect(geometry, scale_factor);
+    zoomed_geometry = get_zoomed_rect(geometry, zoom_factor);
 
     auto s_signal = blockSignals(true);
-    rubberband.setGeometry(scaled_geometry);
+    rubberband.setGeometry(zoomed_geometry);
     blockSignals(s_signal);
 }
 
 void Selection::move_y(int y)
 {
     geometry.translate(0, y - geometry.y());
-    scaled_geometry = get_scaled_rect(geometry, scale_factor);
+    zoomed_geometry = get_zoomed_rect(geometry, zoom_factor);
 
     auto s_signal = blockSignals(true);
-    rubberband.setGeometry(scaled_geometry);
+    rubberband.setGeometry(zoomed_geometry);
     blockSignals(s_signal);
 }
 
 void Selection::resize_width(int width)
 {
     geometry.setWidth(width);
-    scaled_geometry = get_scaled_rect(geometry, scale_factor);
+    zoomed_geometry = get_zoomed_rect(geometry, zoom_factor);
 
     auto s_signal = blockSignals(true);
-    rubberband.setGeometry(scaled_geometry);
+    rubberband.setGeometry(zoomed_geometry);
     blockSignals(s_signal);
 }
 
 void Selection::resize_height(int height)
 {
     geometry.setHeight(height);
-    scaled_geometry = get_scaled_rect(geometry, scale_factor);
+    zoomed_geometry = get_zoomed_rect(geometry, zoom_factor);
 
     auto s_signal = blockSignals(true);
-    rubberband.setGeometry(scaled_geometry);
+    rubberband.setGeometry(zoomed_geometry);
     blockSignals(s_signal);
 }
 
-void Selection::set_scale(double factor)
+void Selection::set_zoom(double factor)
 {
-    scale_factor = factor;
+    zoom_factor = factor;
     if (state != State::inactive) {
-        scaled_origin = origin * factor;
-        scaled_geometry = get_scaled_rect(geometry, factor);
-        rubberband.setGeometry(scaled_geometry);
+        zoomed_origin = origin * factor;
+        zoomed_geometry = get_zoomed_rect(geometry, factor);
+        rubberband.setGeometry(zoomed_geometry);
     }
 }
 
@@ -133,16 +133,16 @@ void Selection::set_scale(double factor)
  * since we can multiple QPoints by floats,
  * but not QRects
  */
-QRect Selection::get_scaled_rect(QRect rect, double scale) const
+QRect Selection::get_zoomed_rect(QRect rect, double zoom) const
 {
     {
         auto point = rect.topLeft();
-        point *= scale;
+        point *= zoom;
         rect.setTopLeft(point);
     }
     {
         auto point = rect.bottomRight();
-        point *= scale;
+        point *= zoom;
         rect.setBottomRight(point);
     }
     return rect;

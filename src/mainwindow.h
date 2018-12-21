@@ -52,7 +52,7 @@ private slots:
 private:
     void createActions();
 
-    void scale_scroll_bar();
+    void zoom_scroll_bar();
 
     void do_close();
     void show_error_message(QString message);

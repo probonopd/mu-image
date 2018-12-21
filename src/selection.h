@@ -31,7 +31,7 @@ class Selection : public QObject
         void resize_height(int height);
         QRect shape() const { return geometry; }
         void set_shape(QRect shape) {  rubberband.setGeometry(shape.normalized()); }
-        void set_scale(double factor);
+        void set_zoom(double factor);
     signals:
         void selection_created(QRect geometry);
         void selection_changed(QRect geometry);
@@ -40,15 +40,15 @@ class Selection : public QObject
         QPoint parent_origin{};
         QRubberBand rubberband;
         QRect geometry{};
-        QRect scaled_geometry{};
+        QRect zoomed_geometry{};
         State state{State::inactive};
         QPoint origin{};
-        QPoint scaled_origin{};
-        double scale_factor{1.0};
-        QPoint scaled_move_offset{};
+        QPoint zoomed_origin{};
+        double zoom_factor{1.0};
+        QPoint zoomed_move_offset{};
         QPoint move_offset{};
 
-        QRect get_scaled_rect(QRect rect, double scale) const;
+        QRect get_zoomed_rect(QRect rect, double zoom) const;
 };
 
 #endif

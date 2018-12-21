@@ -65,7 +65,7 @@ bool Image::open(QString filename)
 void Image::update_view()
 {
     setPixmap(QPixmap::fromImage(image));
-    scale_factor = 1.0;
+    zoom_factor = 1.0;
 
     setVisible(true);
 
@@ -78,18 +78,18 @@ void Image::crop()
     update_view();
 }
 
-void Image::scale(double factor)
+void Image::zoom(double factor)
 {
 
     if (factor == 1.0) {
-        scale_factor = 1.0;
+        zoom_factor = 1.0;
     } else {
-        scale_factor *= factor;
+        zoom_factor *= factor;
     }
 
-    selection.set_scale(scale_factor);
+    selection.set_zoom(zoom_factor);
 
-    resize(scale_factor * pixmap()->size());
+    resize(zoom_factor * pixmap()->size());
 
 }
 
