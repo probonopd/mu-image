@@ -19,6 +19,7 @@ add_executable(mu-image
     src/mainwindow.cpp
     src/image.cpp
     src/cropcommand.cpp
+    src/scalecommand.cpp
     src/selection.cpp
     resources/mu-image.qrc
 )

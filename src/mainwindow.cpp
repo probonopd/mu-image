@@ -16,6 +16,7 @@
 #include <QSpinBox>
 
 #include "cropcommand.h"
+#include "scalecommand.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,7 +59,7 @@ void MainWindow::createActions()
     ui->actionLoad->setShortcut(QKeySequence::Open);
     ui->actionSave->setShortcut(QKeySequence::Save);
     ui->actionSave->setShortcut(QKeySequence::HelpContents);
-    ui->actionResize->setShortcut(Qt::CTRL + Qt::Key_R);
+    ui->actionScale->setShortcut(Qt::CTRL + Qt::Key_R);
     ui->actionCrop->setShortcut(Qt::CTRL + Qt::Key_C);
     ui->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
     ui->actionZoomDefault->setShortcut(Qt::CTRL + Qt::Key_1);
@@ -111,11 +112,11 @@ void MainWindow::do_save()
     // no dialog, just save the file
 }
 
-void MainWindow::do_resize()
+void MainWindow::do_scale()
 {
-    qDebug() << "resize";
+    qDebug() << "scale";
     ui->stackedPanels->setCurrentIndex(1);
-    active_action = Action::resize;
+    active_action = Action::scale;
 }
 
 void MainWindow::do_crop()
@@ -181,9 +182,9 @@ void MainWindow::do_transparency()
     active_action = Action::transparency;
 }
 
-void MainWindow::apply_resize()
+void MainWindow::apply_scale()
 {
-    qDebug() << "resize apply";
+    qDebug() << "scale apply";
     ui->stackedPanels->setCurrentIndex(0);
     active_action = Action::none;
 }
@@ -271,7 +272,7 @@ void MainWindow::hide_panels()
 void MainWindow::enable_action_buttons()
 {
     ui->actionSave->setEnabled(true);
-    ui->actionResize->setEnabled(true);
+    ui->actionScale->setEnabled(true);
     ui->actionCrop->setEnabled(true);
     ui->actionTransparency->setEnabled(true);
     ui->actionZoomIn->setEnabled(true);
@@ -282,7 +283,7 @@ void MainWindow::enable_action_buttons()
 void MainWindow::disable_action_buttons()
 {
     ui->actionSave->setEnabled(false);
-    ui->actionResize->setEnabled(false);
+    ui->actionScale->setEnabled(false);
     ui->actionCrop->setEnabled(false);
     ui->actionTransparency->setEnabled(false);
     ui->actionZoomIn->setEnabled(false);

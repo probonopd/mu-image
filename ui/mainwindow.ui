@@ -55,7 +55,7 @@
    </attribute>
    <addaction name="actionLoad"/>
    <addaction name="actionSave"/>
-   <addaction name="actionResize"/>
+   <addaction name="actionScale"/>
    <addaction name="actionCrop"/>
    <addaction name="actionTransparency"/>
    <addaction name="actionZoomOut"/>
@@ -76,7 +76,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedPanels">
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="emptyPanel"/>
        <widget class="QWidget" name="scalePanel">
@@ -170,9 +170,9 @@
           </widget>
          </item>
          <item row="8" column="0" colspan="2">
-          <widget class="QPushButton" name="resizeButton">
+          <widget class="QPushButton" name="scaleButton">
            <property name="text">
-            <string>Resize</string>
+            <string>Scale</string>
            </property>
           </widget>
          </item>
@@ -325,16 +325,16 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionResize">
+  <action name="actionScale">
    <property name="icon">
     <iconset resource="../resources/mu-image.qrc">
      <normaloff>:/resources/resize.png</normaloff>:/resources/resize.png</iconset>
    </property>
    <property name="text">
-    <string>Resize</string>
+    <string>Scale</string>
    </property>
    <property name="toolTip">
-    <string>Resize</string>
+    <string>Scale</string>
    </property>
   </action>
   <action name="actionCrop">
@@ -419,7 +419,7 @@
   <tabstop>scaleWidthPcSpinBox</tabstop>
   <tabstop>scaleHeightPxSpinBox</tabstop>
   <tabstop>scaleHeightPcSpinBox</tabstop>
-  <tabstop>resizeButton</tabstop>
+  <tabstop>scaleButton</tabstop>
   <tabstop>proportionsCheckBox</tabstop>
   <tabstop>scaleWidthPxSpinBox</tabstop>
  </tabstops>
@@ -460,10 +460,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionResize</sender>
+   <sender>actionScale</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>do_resize()</slot>
+   <slot>do_scale()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -508,13 +508,13 @@
    </hints>
   </connection>
   <connection>
-   <sender>resizeButton</sender>
+   <sender>scaleButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>apply_resize()</slot>
+   <slot>apply_scale()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>475</x>
+     <x>68</x>
      <y>226</y>
     </hint>
     <hint type="destinationlabel">
@@ -530,8 +530,8 @@
    <slot>apply_crop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>487</x>
-     <y>221</y>
+     <x>80</x>
+     <y>202</y>
     </hint>
     <hint type="destinationlabel">
      <x>302</x>
@@ -592,10 +592,10 @@
   <slot>do_load()</slot>
   <slot>do_save()</slot>
   <slot>do_help()</slot>
-  <slot>do_resize()</slot>
+  <slot>do_scale()</slot>
   <slot>do_crop()</slot>
   <slot>do_transparency()</slot>
-  <slot>apply_resize()</slot>
+  <slot>apply_scale()</slot>
   <slot>apply_crop()</slot>
   <slot>apply_transparency()</slot>
   <slot>do_zoom_in()</slot>

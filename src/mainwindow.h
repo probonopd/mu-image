@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
 
     enum class Action
     {
-        none, resize, crop, transparency
+        none, scale, crop, transparency
     };
 
 public:
@@ -34,10 +34,10 @@ public:
 private slots:
     void do_load();
     void do_save();
-    void do_resize();
+    void do_scale();
     void do_crop();
     void do_transparency();
-    void apply_resize();
+    void apply_scale();
     void apply_crop();
     void apply_transparency();
     void close_crop();

@@ -29,6 +29,7 @@ class Image : public QLabel
         int view_width() { return width(); }
         int view_height() { return width(); }
         void crop();
+        void scale();
         void zoom(double factor);
         double get_zoom() { return zoom_factor; }
         void enable_selection(bool enable = true);

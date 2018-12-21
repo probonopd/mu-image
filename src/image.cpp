@@ -78,6 +78,12 @@ void Image::crop()
     update_view();
 }
 
+void Image::scale()
+{
+    // image = image.copy(selection.shape());
+    update_view();
+}
+
 void Image::zoom(double factor)
 {
 
